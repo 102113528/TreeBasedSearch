@@ -21,11 +21,11 @@ namespace TreeBasedSearch
             {
                 for (int x = 0; x < environment.Columns; x++)
                 {
-                    CellState cell = environment.Cells[x, y];
+                    CellState cellState = environment.GetCellAt(x, y).State;
 
-                    if (cell == CellState.Agent) Console.Write(">");
-                    else if (cell == CellState.Goal) Console.Write("*");
-                    else if (cell == CellState.Wall) Console.Write("#");
+                    if (cellState == CellState.Agent) Console.Write(">");
+                    else if (cellState == CellState.Goal) Console.Write("*");
+                    else if (cellState == CellState.Wall) Console.Write("#");
                     else Console.Write("-");
                 }
 

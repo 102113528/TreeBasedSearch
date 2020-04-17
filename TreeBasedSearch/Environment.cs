@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using TreeBasedSearch.Utilities;
 
 namespace TreeBasedSearch
@@ -7,9 +9,17 @@ namespace TreeBasedSearch
     {
         public int Rows { get; private set; }
         public int Columns { get; private set; }
-        public CellState[,] Cells { get; private set; }
+
+        
+        private List<Cell> _cells;
+        
 
         private Environment() { }
+
+        public Cell GetCellAt(int x, int y)
+        {
+            return _cells.FirstOrDefault(cell => cell.X == x && cell.Y == y);
+        }
 
         public static Environment Parse(string path)
         {
@@ -22,13 +32,14 @@ namespace TreeBasedSearch
             environment.Rows = int.Parse(tokens[0]);
             environment.Columns = int.Parse(tokens[1]);
 
-            environment.Cells = new CellState[environment.Columns, environment.Rows];
+            environment._cells = new List<Cell>(environment.Columns * environment.Rows);
 
             for (int y = 0; y < environment.Rows; y++)
             {
                 for (int x = 0; x < environment.Columns; x++)
                 {
-                    environment.Cells[x, y] = CellState.Empty;
+                    Cell cell = new Cell(x, y, CellState.Empty);
+                    environment._cells.Add(cell);
                 }
             }
 
@@ -36,7 +47,7 @@ namespace TreeBasedSearch
             int initialAgentX = int.Parse(tokens[0]);
             int initialAgentY = int.Parse(tokens[1]);
 
-            environment.Cells[initialAgentX, initialAgentY] = CellState.Agent;
+            environment.GetCellAt(initialAgentX, initialAgentY).State = CellState.Agent;
 
             tokens = lines[2].Remove("(", ")").Split('|');
 
@@ -45,7 +56,7 @@ namespace TreeBasedSearch
                 string[] split = tokens[i].Split(',');
                 int x = int.Parse(split[0]), y = int.Parse(split[1]);
 
-                environment.Cells[x, y] = CellState.Goal;
+                environment.GetCellAt(x, y).State = CellState.Goal;
             }
 
             for (int i = 3; i < lines.Length; i++)
@@ -59,7 +70,7 @@ namespace TreeBasedSearch
                 {
                     for (int y = top; y < bottom; y++)
                     {
-                        environment.Cells[x, y] = CellState.Wall;
+                        environment.GetCellAt(x, y).State = CellState.Wall;
                     }
                 }
             }
