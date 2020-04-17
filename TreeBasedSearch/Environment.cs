@@ -10,15 +10,18 @@ namespace TreeBasedSearch
         public int Rows { get; private set; }
         public int Columns { get; private set; }
 
-        
         private List<Cell> _cells;
-        
 
         private Environment() { }
 
         public Cell GetCellAt(int x, int y)
         {
             return _cells.FirstOrDefault(cell => cell.X == x && cell.Y == y);
+        }
+
+        public List<Cell> GetCellsByState(CellState state)
+        {
+            return _cells.FindAll(cell => cell.State == state);
         }
 
         public static Environment Parse(string path)
