@@ -40,6 +40,9 @@ namespace TreeBasedSearch
 
             switch (method)
             {
+                case "BFS":
+                    search = new BreadthFirstSearch(environment);
+                    break;
                 default:
                     Console.WriteLine("Invalid method!");
                     Console.WriteLine("Methods: DFS, BFS, GBFS, AS, CUS1, CUS2");
