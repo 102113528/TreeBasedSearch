@@ -40,12 +40,34 @@ namespace TreeBasedSearch
 
             switch (method)
             {
+                case "DFS":
+                    search = new DepthFirstSearch(environment);
+                    break;
                 case "BFS":
                     search = new BreadthFirstSearch(environment);
                     break;
+                case "GBFS":
+                    search = new GreedyBestFirstSearch(environment);
+                    break;
+                case "AS":
+                    search = new AStarSearch(environment);
+                    break;
+                case "CUS1":
+                    search = new DijkstraAlgorithmSearch(environment);
+                    break;
+                case "CUS2":
+                    search = new UniformCostSearch(environment);
+                    break;
                 default:
                     Console.WriteLine("Invalid method!");
-                    Console.WriteLine("Methods: DFS, BFS, GBFS, AS, CUS1, CUS2");
+
+                    Console.WriteLine("Methods:");
+                    Console.WriteLine("- DFS: Depth-first search");
+                    Console.WriteLine("- BFS: Breadth-first search");
+                    Console.WriteLine("- GBFS: Greedy best-first search");
+                    Console.WriteLine("- AS: A* search");
+                    Console.WriteLine("- CUS1: Dijkstra's algorithm search");
+                    Console.WriteLine("- CUS2: Uniform-cost search");
 
                     return;
             }
