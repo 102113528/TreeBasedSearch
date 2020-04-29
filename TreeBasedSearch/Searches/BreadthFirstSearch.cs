@@ -20,25 +20,14 @@ namespace TreeBasedSearch.Searches
             Queue<Node> frontier = new Queue<Node>();
             frontier.Enqueue(currentNode);
 
+            List<Cell> visited = new List<Cell>();
+
             while (frontier.Count > 0)
             {
                 currentNode = frontier.Dequeue();
 
-                Node checkingNode = currentNode.Parent;
-                bool alreadyInBranch = false;
-
-                while (checkingNode != null)
-                {
-                    if (currentNode.Data.X == checkingNode.Data.X && currentNode.Data.Y == checkingNode.Data.Y)
-                    {
-                        alreadyInBranch = true;
-                        break;
-                    }
-
-                    checkingNode = checkingNode.Parent;
-                }
-
-                if (alreadyInBranch) continue;
+                if (visited.Contains(currentNode.Data)) continue;
+                visited.Add(currentNode.Data);
 
                 if (currentNode.Data.State == CellState.Goal)
                 {
