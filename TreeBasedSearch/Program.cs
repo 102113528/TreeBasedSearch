@@ -97,6 +97,23 @@ namespace TreeBasedSearch
 
                 Console.WriteLine();
             }
+
+            Cell lastCell = solution[0];
+
+            for (int i = 1; i < solution.Count; i++)
+            {
+                Cell cell = solution[i];
+
+                if (cell.Y < lastCell.Y) Console.Write("Up");
+                else if (cell.X < lastCell.X) Console.Write("Left");
+                else if (cell.Y > lastCell.Y) Console.Write("Down");
+                else if (cell.X > lastCell.X) Console.Write("Right");
+
+                if (i == solution.Count - 1) Console.WriteLine();
+                else Console.Write(", ");
+
+                lastCell = cell;
+            }
         }
     }
 }
