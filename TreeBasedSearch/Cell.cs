@@ -1,4 +1,6 @@
-﻿namespace TreeBasedSearch
+﻿using System;
+
+namespace TreeBasedSearch
 {
     public class Cell
     {
@@ -10,6 +12,14 @@
             X = x;
             Y = y;
             State = state;
+        }
+
+        public static int GetManhattanDistance(Cell current, Cell destination)
+        {
+            int xDifference = Math.Abs(current.X - destination.X);
+            int yDifference = Math.Abs(current.Y - destination.Y);
+
+            return xDifference + yDifference;
         }
     }
 }

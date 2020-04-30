@@ -75,21 +75,13 @@ namespace TreeBasedSearch.Searches
 
             cells.Sort((x, y) =>
             {
-                int xDistance = GetManhattanDistance(x, _goalCell);
-                int yDistance = GetManhattanDistance(y, _goalCell);
+                int xDistance = Cell.GetManhattanDistance(x, _goalCell);
+                int yDistance = Cell.GetManhattanDistance(y, _goalCell);
 
                 return yDistance.CompareTo(xDistance);
             });
 
             return cells;
-        }
-
-        private int GetManhattanDistance(Cell current, Cell destination)
-        {
-            int xDifference = Math.Abs(current.X - destination.X);
-            int yDifference = Math.Abs(current.Y - destination.Y);
-
-            return xDifference + yDifference;
         }
 
         private void AddToFrontier(Cell cell, Node parent)
