@@ -7,6 +7,9 @@ namespace TreeBasedSearch.Searches
         public string Name { get; } = "Breadth-first search";
         public Environment Environment { get; }
 
+        private Queue<Node> _frontier;
+        private List<Cell> _visited;
+
         public BreadthFirstSearch(Environment environment)
         {
             Environment = environment;
@@ -17,17 +20,14 @@ namespace TreeBasedSearch.Searches
             Cell initialCell = Environment.GetCellsByState(CellState.Agent)[0];
             Node currentNode = new Node(initialCell, null);
 
-            Queue<Node> frontier = new Queue<Node>();
-            frontier.Enqueue(currentNode);
+            _frontier = new Queue<Node>();
+            _frontier.Enqueue(currentNode);
 
-            List<Cell> visited = new List<Cell>();
+            _visited = new List<Cell>();
 
-            while (frontier.Count > 0)
+            while (_frontier.Count > 0)
             {
-                currentNode = frontier.Dequeue();
-
-                if (visited.Contains(currentNode.Data)) continue;
-                visited.Add(currentNode.Data);
+                currentNode = _frontier.Dequeue();
 
                 if (currentNode.Data.State == CellState.Goal)
                 {
@@ -45,25 +45,28 @@ namespace TreeBasedSearch.Searches
                 if (currentNode.Data.State == CellState.Wall) continue;
 
                 Cell aboveCell = Environment.GetCellAt(currentNode.Data.X, currentNode.Data.Y - 1);
-                if (aboveCell != null) AddToFrontier(frontier, aboveCell, currentNode);
+                if (aboveCell != null) AddToFrontier(aboveCell, currentNode);
 
                 Cell leftCell = Environment.GetCellAt(currentNode.Data.X - 1, currentNode.Data.Y);
-                if (leftCell != null) AddToFrontier(frontier, leftCell, currentNode);
+                if (leftCell != null) AddToFrontier(leftCell, currentNode);
 
                 Cell belowCell = Environment.GetCellAt(currentNode.Data.X, currentNode.Data.Y + 1);
-                if (belowCell != null) AddToFrontier(frontier, belowCell, currentNode);
+                if (belowCell != null) AddToFrontier(belowCell, currentNode);
 
                 Cell rightCell = Environment.GetCellAt(currentNode.Data.X + 1, currentNode.Data.Y);
-                if (rightCell != null) AddToFrontier(frontier, rightCell, currentNode);
+                if (rightCell != null) AddToFrontier(rightCell, currentNode);
             }
 
             return null;
         }
 
-        private void AddToFrontier(Queue<Node> frontier, Cell cell, Node parent)
+        private void AddToFrontier(Cell cell, Node parent)
         {
+            if (_visited.Contains(cell)) return;
+            _visited.Add(cell);
+
             Node node = new Node(cell, parent);
-            frontier.Enqueue(node);
+            _frontier.Enqueue(node);
         }
     }
 }
