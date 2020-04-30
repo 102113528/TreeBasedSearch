@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TreeBasedSearch.Searches
 {
@@ -21,9 +22,10 @@ namespace TreeBasedSearch.Searches
             Node currentNode = new Node(initialCell, null);
 
             _frontier = new Queue<Node>();
-            _frontier.Enqueue(currentNode);
-
             _visited = new List<Cell>();
+
+            _frontier.Enqueue(currentNode);
+            _visited.Add(currentNode.Data);
 
             while (_frontier.Count > 0)
             {
@@ -62,7 +64,7 @@ namespace TreeBasedSearch.Searches
 
         private void AddToFrontier(Cell cell, Node parent)
         {
-            if (_visited.Contains(cell)) return;
+            if (_visited.Exists(item => item.X == cell.X && item.Y == cell.Y)) return;
             _visited.Add(cell);
 
             Node node = new Node(cell, parent);
