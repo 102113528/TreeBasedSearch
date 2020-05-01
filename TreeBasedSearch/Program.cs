@@ -53,10 +53,8 @@ namespace TreeBasedSearch
                     search = new AStarSearch(environment);
                     break;
                 case "CUS1":
-                    search = new DijkstraAlgorithmSearch(environment);
-                    break;
-                case "CUS2":
                     search = new UniformCostSearch(environment);
+                    break;
                     break;
                 default:
                     Console.WriteLine("Invalid method!");
@@ -66,8 +64,7 @@ namespace TreeBasedSearch
                     Console.WriteLine("- BFS: Breadth-first search");
                     Console.WriteLine("- GBFS: Greedy best-first search");
                     Console.WriteLine("- AS: A* search");
-                    Console.WriteLine("- CUS1: Dijkstra's algorithm search");
-                    Console.WriteLine("- CUS2: Uniform-cost search");
+                    Console.WriteLine("- CUS1: Uniform-cost search");
 
                     return;
             }
