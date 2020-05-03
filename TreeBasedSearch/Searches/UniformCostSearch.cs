@@ -7,10 +7,8 @@ namespace TreeBasedSearch.Searches
         public string Name { get; } = "Uniform-cost search";
         public Environment Environment { get; }
 
-        private Stack<Node> _frontier;
-        private List<Cell> _visited;
-
-        private Cell _initialCell;
+        private readonly Stack<Node> _frontier = new Stack<Node>();
+        private readonly List<Cell> _visited = new List<Cell>();
 
         public UniformCostSearch(Environment environment)
         {
@@ -19,11 +17,7 @@ namespace TreeBasedSearch.Searches
 
         public List<Cell> Search()
         {
-            _initialCell = Environment.GetCellsByState(CellState.Agent)[0];
-            Node currentNode = new Node(_initialCell, null);
-
-            _frontier = new Stack<Node>();
-            _visited = new List<Cell>();
+            Node currentNode = new Node(Environment.GetCellsByState(CellState.Agent)[0], null);
 
             _frontier.Push(currentNode);
             _visited.Add(currentNode.Data);
@@ -54,18 +48,6 @@ namespace TreeBasedSearch.Searches
             return null;
         }
 
-        private int GetDirectionCost(Cell lastCell, Cell currentCell)
-        {
-            // 1 - Up, 2 - Left, 3 - Down, 4 - Right
-
-            if (lastCell.Y > currentCell.Y) return 1;
-            if (lastCell.X > currentCell.X) return 2;
-            if (lastCell.Y < currentCell.Y) return 3;
-            if (lastCell.X < currentCell.X) return 4;
-
-            return 0;
-        }
-
         private List<Node> GetNeighbouringNodes(Node node)
         {
             List<Node> cells = new List<Node>();
@@ -92,7 +74,7 @@ namespace TreeBasedSearch.Searches
             if (_visited.Exists(item => item.X == cell.X && item.Y == cell.Y)) return;
             _visited.Add(cell);
 
-            Node node = new Node(cell, parent, parent.Cost + GetDirectionCost(parent.Data, cell));
+            Node node = new Node(cell, parent, parent.Cost + Cell.GetDirectionCost(parent.Data, cell));
             list.Add(node);
         }
     }

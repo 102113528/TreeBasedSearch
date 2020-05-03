@@ -14,16 +14,33 @@ namespace TreeBasedSearch
 
         private Environment() { }
 
+        /// <summary>
+        /// Gets the cell at the specified x and y position.
+        /// </summary>
+        /// <param name="x">The x position.</param>
+        /// <param name="y">The y position.</param>
+        /// <returns>The cell, or null if no cell is found.</returns>
         public Cell GetCellAt(int x, int y)
         {
             return _cells.FirstOrDefault(cell => cell.X == x && cell.Y == y);
         }
 
+        /// <summary>
+        /// Gets a list of cell objects that have the specified cell state type.
+        /// </summary>
+        /// <param name="state">The cell state to match.</param>
+        /// <returns>A list of cells that have the matching cell state.</returns>
         public List<Cell> GetCellsByState(CellState state)
         {
             return _cells.FindAll(cell => cell.State == state);
         }
 
+        /// <summary>
+        /// Parses a specified file and creates an environment object based on its contents.
+        /// </summary>
+        /// <param name="path">The path to the file.</param>
+        /// <returns>An environment object based on the contents of the file.</returns>
+        /// <exception cref="FileNotFoundException"></exception>
         public static Environment Parse(string path)
         {
             if (!File.Exists(path)) throw new FileNotFoundException($"The file \"{path}\" does not exist!");

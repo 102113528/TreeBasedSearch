@@ -8,8 +8,8 @@ namespace TreeBasedSearch.Searches
         public string Name { get; } = "Greedy best-first search";
         public Environment Environment { get; }
 
-        private Stack<Node> _frontier;
-        private List<Cell> _visited;
+        private readonly Stack<Node> _frontier = new Stack<Node>();
+        private readonly List<Cell> _visited = new List<Cell>();
 
         private List<Cell> _goalCells;
 
@@ -20,16 +20,12 @@ namespace TreeBasedSearch.Searches
 
         public List<Cell> Search()
         {
-            Cell initialCell = Environment.GetCellsByState(CellState.Agent)[0];
-            Node currentNode = new Node(initialCell, null);
-
-            _goalCells = Environment.GetCellsByState(CellState.Goal);
-
-            _frontier = new Stack<Node>();
-            _visited = new List<Cell>();
+            Node currentNode = new Node(Environment.GetCellsByState(CellState.Agent)[0], null);
 
             _frontier.Push(currentNode);
             _visited.Add(currentNode.Data);
+
+            _goalCells = Environment.GetCellsByState(CellState.Goal);
 
             while (_frontier.Count > 0)
             {

@@ -88,18 +88,6 @@ namespace TreeBasedSearch.Searches
             foreach (Node node in nodes) frontier.Push(node);
         }
 
-        private int GetDirectionCost(Cell lastCell, Cell currentCell)
-        {
-            // 1 - Up, 2 - Left, 3 - Down, 4 - Right
-
-            if (lastCell.Y > currentCell.Y) return 1;
-            if (lastCell.X > currentCell.X) return 2;
-            if (lastCell.Y < currentCell.Y) return 3;
-            if (lastCell.X < currentCell.X) return 4;
-
-            return 0;
-        }
-
         private List<Node> GetNeighbouringNodes(List<Cell> visited, Cell destination, Node node)
         {
             List<Node> cells = new List<Node>();
@@ -132,7 +120,7 @@ namespace TreeBasedSearch.Searches
             if (visited.Exists(item => item.X == cell.X && item.Y == cell.Y)) return;
             visited.Add(cell);
 
-            Node node = new Node(cell, parent, parent.Cost + GetDirectionCost(parent.Data, cell));
+            Node node = new Node(cell, parent, parent.Cost + Cell.GetDirectionCost(parent.Data, cell));
             list.Add(node);
         }
     }

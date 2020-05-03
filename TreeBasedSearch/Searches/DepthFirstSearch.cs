@@ -7,8 +7,8 @@ namespace TreeBasedSearch.Searches
         public string Name { get; } = "Depth-first search";
         public Environment Environment { get; }
 
-        private Stack<Node> _frontier;
-        private List<Cell> _visited;
+        private readonly Stack<Node> _frontier = new Stack<Node>();
+        private readonly List<Cell> _visited = new List<Cell>();
 
         public DepthFirstSearch(Environment environment)
         {
@@ -17,11 +17,7 @@ namespace TreeBasedSearch.Searches
 
         public List<Cell> Search()
         {
-            Cell initialCell = Environment.GetCellsByState(CellState.Agent)[0];
-            Node currentNode = new Node(initialCell, null);
-
-            _frontier = new Stack<Node>();
-            _visited = new List<Cell>();
+            Node currentNode = new Node(Environment.GetCellsByState(CellState.Agent)[0], null);
 
             _frontier.Push(currentNode);
             _visited.Add(currentNode.Data);

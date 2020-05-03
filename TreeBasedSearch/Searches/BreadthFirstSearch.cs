@@ -8,8 +8,8 @@ namespace TreeBasedSearch.Searches
         public string Name { get; } = "Breadth-first search";
         public Environment Environment { get; }
 
-        private Queue<Node> _frontier;
-        private List<Cell> _visited;
+        private readonly Queue<Node> _frontier = new Queue<Node>();
+        private readonly List<Cell> _visited = new List<Cell>();
 
         public BreadthFirstSearch(Environment environment)
         {
@@ -18,11 +18,7 @@ namespace TreeBasedSearch.Searches
 
         public List<Cell> Search()
         {
-            Cell initialCell = Environment.GetCellsByState(CellState.Agent)[0];
-            Node currentNode = new Node(initialCell, null);
-
-            _frontier = new Queue<Node>();
-            _visited = new List<Cell>();
+            Node currentNode = new Node(Environment.GetCellsByState(CellState.Agent)[0], null);
 
             _frontier.Enqueue(currentNode);
             _visited.Add(currentNode.Data);
