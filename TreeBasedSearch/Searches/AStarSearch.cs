@@ -11,7 +11,8 @@ namespace TreeBasedSearch.Searches
         private Stack<Node> _frontier;
         private List<Cell> _visited;
 
-        private Cell _initialCell, _goalCell;
+        private Cell _initialCell;
+        private List<Cell> _goalCells;
 
         public AStarSearch(Environment environment)
         {
@@ -21,7 +22,7 @@ namespace TreeBasedSearch.Searches
         public List<Cell> Search()
         {
             _initialCell = Environment.GetCellsByState(CellState.Agent)[0];
-            _goalCell = Environment.GetCellsByState(CellState.Goal)[0];
+            _goalCells = Environment.GetCellsByState(CellState.Goal);
 
             Node currentNode = new Node(_initialCell, null);
 
@@ -87,10 +88,19 @@ namespace TreeBasedSearch.Searches
 
             cells.Sort((x, y) =>
             {
-                int xDistance = x.Cost + Cell.GetManhattanDistance(x.Data, _goalCell);
-                int yDistance = y.Cost + Cell.GetManhattanDistance(y.Data, _goalCell);
+                int xBestDistance = x.Cost + Cell.GetManhattanDistance(x.Data, _goalCells[0]);
+                int yBestDistance = y.Cost + Cell.GetManhattanDistance(y.Data, _goalCells[0]);
 
-                return yDistance.CompareTo(xDistance);
+                for (int i = 1; i < _goalCells.Count; i++)
+                {
+                    int xDistance = x.Cost + Cell.GetManhattanDistance(x.Data, _goalCells[i]);
+                    int yDistance = y.Cost + Cell.GetManhattanDistance(y.Data, _goalCells[i]);
+
+                    if (xDistance < xBestDistance) xBestDistance = xDistance;
+                    if (yDistance < yBestDistance) yBestDistance = yDistance;
+                }
+
+                return yBestDistance.CompareTo(xBestDistance);
             });
 
             return cells;

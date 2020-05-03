@@ -11,7 +11,7 @@ namespace TreeBasedSearch.Searches
         private Stack<Node> _frontier;
         private List<Cell> _visited;
 
-        private Cell _goalCell;
+        private List<Cell> _goalCells;
 
         public GreedyBestFirstSearch(Environment environment)
         {
@@ -23,7 +23,7 @@ namespace TreeBasedSearch.Searches
             Cell initialCell = Environment.GetCellsByState(CellState.Agent)[0];
             Node currentNode = new Node(initialCell, null);
 
-            _goalCell = Environment.GetCellsByState(CellState.Goal)[0];
+            _goalCells = Environment.GetCellsByState(CellState.Goal);
 
             _frontier = new Stack<Node>();
             _visited = new List<Cell>();
@@ -75,10 +75,19 @@ namespace TreeBasedSearch.Searches
 
             cells.Sort((x, y) =>
             {
-                int xDistance = Cell.GetManhattanDistance(x, _goalCell);
-                int yDistance = Cell.GetManhattanDistance(y, _goalCell);
+                int xBestDistance = Cell.GetManhattanDistance(x, _goalCells[0]);
+                int yBestDistance = Cell.GetManhattanDistance(y, _goalCells[0]);
 
-                return yDistance.CompareTo(xDistance);
+                for (int i = 1; i < _goalCells.Count; i++)
+                {
+                    int xDistance = Cell.GetManhattanDistance(x, _goalCells[i]);
+                    int yDistance = Cell.GetManhattanDistance(y, _goalCells[i]);
+
+                    if (xDistance < xBestDistance) xBestDistance = xDistance;
+                    if (yDistance < yBestDistance) yBestDistance = yDistance;
+                }
+
+                return yBestDistance.CompareTo(xBestDistance);
             });
 
             return cells;
