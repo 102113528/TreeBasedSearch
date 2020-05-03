@@ -55,6 +55,8 @@ namespace TreeBasedSearch
                 case "CUS1":
                     search = new UniformCostSearch(environment);
                     break;
+                case "CUS2":
+                    search = new BidirectionalAStarSearch(environment);
                     break;
                 default:
                     Console.WriteLine("Invalid method!");
@@ -65,6 +67,7 @@ namespace TreeBasedSearch
                     Console.WriteLine("- GBFS: Greedy best-first search");
                     Console.WriteLine("- AS: A* search");
                     Console.WriteLine("- CUS1: Uniform-cost search");
+                    Console.WriteLine("- CUS2: Bidirectional (A*) search");
 
                     return;
             }
